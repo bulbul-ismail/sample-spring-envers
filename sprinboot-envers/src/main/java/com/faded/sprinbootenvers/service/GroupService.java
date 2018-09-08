@@ -7,11 +7,11 @@ import com.faded.sprinbootenvers.entity.SomeGroup;
 
 public interface GroupService {
 
-	public SomeGroup create();
+	public void create(SomeGroup group);
 	
-	public SomeGroup delete();
+	public void delete(Optional<String> groupName);
 	
-	public SomeGroup update();
+	public void update(SomeGroup group);
 	
 	public List<SomeGroup> findAll(Optional<String> groupName);
 }

@@ -9,11 +9,15 @@ import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -1725391966924008106L;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	@Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
