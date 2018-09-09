@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.history.Revision;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,11 +31,18 @@ public class GroupController {
 	@GetMapping(value = "/getGroup")
 	@ApiOperation("Returns Currency data with given CODE parameter.")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "group_name", value = "Group name", required = false, dataType = "string", paramType = "query"), })
+			@ApiImplicitParam(name = "groupName", value = "Group name", required = false, dataType = "string", paramType = "query"), })
 	public List<SomeGroup> queryGroups(
 			@RequestParam(value = "groupName", required = false) Optional<String> groupName) {
 
 		return groupService.findAll(groupName);
+	}
+
+	@GetMapping(value = "/getGroupRevisions")
+	public List<Revision<Integer, SomeGroup>> queryRevisions(
+			@RequestParam(value = "groupId", required = false) Optional<String> groupId) {
+
+		return groupService.findRevisions(groupId);
 	}
 
 	@PostMapping(value = "/createGroup")
@@ -47,9 +55,7 @@ public class GroupController {
 
 	@PutMapping(value = "/editGroup")
 	@ApiOperation("Edit an existing group.")
-	public ResponseEntity<String> editGroup(
-			@RequestBody SomeGroup group
-			) {
+	public ResponseEntity<String> editGroup(@RequestBody SomeGroup group) {
 
 		groupService.save(group);
 		return new ResponseEntity<>("Group Updated!", HttpStatus.OK);
