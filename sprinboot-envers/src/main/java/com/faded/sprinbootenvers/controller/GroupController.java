@@ -41,15 +41,17 @@ public class GroupController {
 	@ApiOperation("Creates a new group with members.")
 	public ResponseEntity<String> createGroup(@RequestBody SomeGroup group) {
 
-		groupService.create(group);
+		groupService.save(group);
 		return new ResponseEntity<>("Group Created!", HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/editGroup")
 	@ApiOperation("Edit an existing group.")
-	public ResponseEntity<String> editGroup(@RequestBody SomeGroup group) {
+	public ResponseEntity<String> editGroup(
+			@RequestBody SomeGroup group
+			) {
 
-		groupService.update(group);
+		groupService.save(group);
 		return new ResponseEntity<>("Group Updated!", HttpStatus.OK);
 	}
 

@@ -22,7 +22,7 @@ public class SomeGroup extends BaseEntity {
 
 	private String description;
 
-	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<GroupMember> members;
 
 	public String getName() {
