@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 
-	@GetMapping(value = "/getGroup")
+	@GetMapping(value = "/group")
 	@ApiOperation("Returns Currency data with given CODE parameter.")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "groupName", value = "Group name", required = false, dataType = "string", paramType = "query"), })
@@ -38,14 +39,13 @@ public class GroupController {
 		return groupService.findAll(groupName);
 	}
 
-	@GetMapping(value = "/getGroupRevisions")
-	public List<Revision<Integer, SomeGroup>> queryRevisions(
-			@RequestParam(value = "groupId", required = false) Optional<String> groupId) {
+	@GetMapping(value = "/getGroupRevisions/{groupId}")
+	public List<Revision<Integer, SomeGroup>> queryRevisions(@PathVariable Optional<String> groupId) {
 
 		return groupService.findRevisions(groupId);
 	}
 
-	@PostMapping(value = "/createGroup")
+	@PostMapping(value = "/group")
 	@ApiOperation("Creates a new group with members.")
 	public ResponseEntity<String> createGroup(@RequestBody SomeGroup group) {
 
@@ -53,7 +53,7 @@ public class GroupController {
 		return new ResponseEntity<>("Group Created!", HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/editGroup")
+	@PutMapping(value = "/group")
 	@ApiOperation("Edit an existing group.")
 	public ResponseEntity<String> editGroup(@RequestBody SomeGroup group) {
 
@@ -61,12 +61,11 @@ public class GroupController {
 		return new ResponseEntity<>("Group Updated!", HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/deleteGroup")
+	@DeleteMapping(value = "/group/{name}")
 	@ApiOperation("Delete an existing group with group name.")
-	public ResponseEntity<String> deleteGroup(
-			@RequestParam(value = "groupName", required = false) Optional<String> groupName) {
+	public ResponseEntity<String> deleteGroup(@PathVariable Optional<String> name) {
 
-		groupService.delete(groupName);
+		groupService.delete(name);
 		return new ResponseEntity<>("Group Deleted!", HttpStatus.OK);
 	}
 }
