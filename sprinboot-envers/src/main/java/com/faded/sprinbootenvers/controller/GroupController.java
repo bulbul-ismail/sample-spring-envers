@@ -30,7 +30,7 @@ public class GroupController {
 	private GroupService groupService;
 
 	@GetMapping(value = "/group")
-	@ApiOperation("Returns Currency data with given CODE parameter.")
+	@ApiOperation("Query Groups by group name.")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "groupName", value = "Group name", required = false, dataType = "string", paramType = "query"), })
 	public List<SomeGroup> queryGroups(
@@ -39,7 +39,7 @@ public class GroupController {
 		return groupService.findAll(groupName);
 	}
 
-	@GetMapping(value = "/getGroupRevisions/{groupId}")
+	@GetMapping(value = "/group/revisions/{groupId}")
 	public List<Revision<Integer, SomeGroup>> queryRevisions(@PathVariable Optional<String> groupId) {
 
 		return groupService.findRevisions(groupId);
